@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photo-deployment
+  labels:
+    app: photo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: photo
+  template:
+    metadata:
+      labels:
+        app: photo
+    spec:
+      containers:
+      - name: photo-container
+        image: sherifyehia/consumer-photo:1.1.1
+        ports:
+        - containerPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: photo-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8888
+      targetPort: 8888
+  selector:
+    app: photo
